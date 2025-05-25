@@ -1,0 +1,41 @@
+﻿@page "/medicos/listado"
+@using HospitalSistema.Data
+@using HospitalSistema.Repositorio
+@rendermode InteractiveServer
+@inject NavigationManager _navigationManager
+@inject IRepositorioMedicos _repositorioMedicos
+
+<PageTitle>Médicos</PageTitle>
+<h2><strong>Listado de Médicos</strong></h2>
+
+@if (_medicos.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Especialidad</th>
+                <th>Consultorio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var medico in _medicos)
+            {
+                <tr>
+                    <td>@medico.Nombre</td>
+                    <td>@medico.Especialidad</td>
+                    <td>@medico.Consultorio</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Medico> _medicos = new();
+
+    override protected async Task OnInitializedAsync()
+    {
+        _medicos = await _repositorioMedicos.GetAll();
+    }
+}

@@ -1,0 +1,36 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">HospitalSistema</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-inicio-nav-menu" aria-hidden="true"></span> Inicio
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="pacientes/nueva">
+                <span class="bi bi-pacientes-nav-menu" aria-hidden="true"></span> Pacientes
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="medicos/nueva">
+                <span class="bi bi-medicos-nav-menu" aria-hidden="true"></span> Médicos
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="consultas/nueva">
+                <span class="bi bi-consultas-nav-menu" aria-hidden="true"></span> Consultas
+            </NavLink>
+        </div>
+    </nav>
+</div>
+

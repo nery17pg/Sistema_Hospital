@@ -1,0 +1,108 @@
+﻿@page "/consultas/nueva"
+@page "/consultas/editar/{Id:int}"
+@using HospitalSistema.Data
+@using HospitalSistema.Repositorio
+@rendermode InteractiveServer
+@inject NavigationManager _navigationManager
+@inject IRepositorioConsultas _repositorioConsultas
+@inject IRepositorioPacientes _repositorioPacientes
+@inject IRepositorioMedicos _repositorioMedicos
+
+<PageTitle>Consultas</PageTitle>
+<h2><strong>@_titulo Consulta</strong></h2>
+
+<EditForm Model="_consulta" FormName="frmConsulta" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator />
+	<div class="mb-3 row">
+		<label for="txtPaciente" class="col-sm-2 col-form-label">Paciente</label>
+		<div class="col-sm-10">
+			<InputSelect class="form-select" id="txtPaciente" @bind-Value="_consulta.PacienteId">
+				<option value="">Seleccione...</option>
+				@foreach (var paciente in _pacientes)
+				{
+					<option value="@paciente.Id">@paciente.Nombre</option>
+				}
+			</InputSelect>
+			<ValidationMessage For="()=>_consulta.PacienteId" />
+		</div>
+	</div>
+	<div class="mb-3 row">
+		<label for="txtMedico" class="col-sm-2 col-form-label">Médico</label>
+		<div class="col-sm-10">
+			<InputSelect class="form-select" id="txtMedico" @bind-Value="_consulta.MedicoId">
+				<option value="">Seleccione...</option>
+				@foreach (var medico in _medicos)
+				{
+					<option value="@medico.Id">@medico.Nombre</option>
+				}
+			</InputSelect>
+			<ValidationMessage For="()=>_consulta.MedicoId" />
+		</div>
+	</div>
+	<div class="mb-3 row">
+		<label for="txtFechaHora" class="col-sm-2 col-form-label">Fecha y hora</label>
+		<div class="col-sm-10">
+			<input id="txtFechaHora" type="datetime-local" class="form-control" @bind="_consulta.Fecha" />
+			<ValidationMessage For="@(() => _consulta.Fecha)" />
+		</div>
+	</div>
+	<div class="mb-3 row">
+		<label for="txtEstado" class="col-sm-2 col-form-label">Estado de consulta</label>
+		<div class="col-sm-10">
+			<InputRadioGroup @bind-Value="_consulta.Estado">
+				<InputRadio id="programada" class="form-check-input" Value="@("Programada")" />
+				<label for="programada" class="form-check-label">Programada</label><br />
+				<InputRadio id="atendida" class="form-check-input" Value="@("Atendida")" />
+				<label for="atendida" class="form-check-label">Atendida</label><br />
+				<InputRadio id="cancelada" class="form-check-input" Value="@("Cancelada")" />
+				<label for="cancelada" class="form-check-label">Cancelada</label><br />
+			</InputRadioGroup>
+			<ValidationMessage For="@(() => _consulta.Estado)" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-10 offset-sm-2">
+			<button type="submit" class="btn btn-primary">Guardar</button>
+			<button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+		</div>
+	</div>
+</EditForm>
+
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	private Consulta _consulta = new() { Fecha = DateTime.Now };
+	private string _titulo = "Nueva ";
+	private List<Paciente> _pacientes = new();
+	private List<Medico> _medicos = new();
+
+	override protected async Task OnInitializedAsync()
+	{
+		_pacientes = await _repositorioPacientes.GetAll();
+		_medicos = await _repositorioMedicos.GetAll();
+		if (Id > 0)
+		{
+			_consulta = await _repositorioConsultas.Get(Id);
+			_titulo = "Modificar ";
+		}
+	}
+
+	private void Guardar()
+	{
+		if (Id > 0)
+		{
+			_repositorioConsultas.Update(_consulta);
+		}
+		else
+		{
+			_repositorioConsultas.Add(_consulta);
+		}
+		Cancelar();
+	}
+
+	private void Cancelar()
+	{
+		_navigationManager.NavigateTo("/consultas");
+	}
+}

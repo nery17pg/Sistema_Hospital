@@ -1,0 +1,43 @@
+﻿@page "/"
+
+<div class="container mt-4">
+     <div class="jumbotron p-4 mb-4 bg-primary rounded">
+         <h2 class="display-4"><strong>¡Bienvenido a Hospital "MOTS"!</strong></h2>
+         <h4 @* class="lead" *@>Enfocados en ofrecer la mejor atención en cualquiera de las especialidades disponibles.
+            Médicos preparados y dispuestos a atenderle las 24 horas del día, cualquier día de la semana.
+         </h4>
+    </div> 
+
+    <div class="row">
+        <!--Pacientes-->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <img src="images/usuarios.jpg" class="card-img-top" alt="Pacientes">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Pacientes</strong></h5>
+                    <p class="card-text">¿Es nuevo usuario? Regístrese usted mismo.</p>
+                    <p class="card-text">Agende una consulta después de ver los especialistas disponibles.</p>
+                    <a class="btn btn-info" href="pacientes/nueva/registro">Registro</a>
+                    <a class="btn btn-secondary" href="medicos/listado">Listado médicos</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Administrativo-->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <img src="images/personal.jpg" class="card-img-top" alt="Personal">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Personal autorizado</strong></h5>
+                    <p class="card-text">Ingrese aquí solo si es personal del hospital.</p>
+                    <a class="btn btn-info" href="administrativo/inicial">Ingreso</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+}

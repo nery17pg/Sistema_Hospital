@@ -1,0 +1,83 @@
+﻿@page "/pacientes/nueva"
+@page "/pacientes/editar/{Id:int}"
+@using HospitalSistema.Data
+@using HospitalSistema.Repositorio
+@rendermode InteractiveServer
+@inject NavigationManager _navigationManager
+@inject IRepositorioPacientes _repositorioPacientes
+
+<PageTitle>Pacientes</PageTitle>
+<h2><strong>@_titulo Paciente</strong></h2>
+
+<EditForm Model="_paciente" FormName="frmPaciente" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="mb-3 row">
+        <label for="txtNombre" class="col-sm-2 col-form-label">Nombre completo</label>
+        <div class="col-sm-10">
+            <InputText id="txtNombre" class="form-control" @bind-Value="_paciente.Nombre" />
+            <ValidationMessage For="@(() => _paciente.Nombre)" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="txtNacimiento" class="col-sm-2 col-form-label">Fecha de nacimiento</label>
+        <div class="col-sm-10">
+            <InputDate id="txtNacimiento" class="form-control" @bind-Value="_paciente.Nacimiento" />
+            <ValidationMessage For="@(() => _paciente.Nacimiento)" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="txtCorreo" class="col-sm-2 col-form-label">Correo electrónico</label>
+        <div class="col-sm-10">
+            <InputText id="txtCorreo" class="form-control" @bind-Value="_paciente.Correo" />
+            <ValidationMessage For="@(() => _paciente.Correo)" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="txtTelefono" class="col-sm-2 col-form-label">Teléfono</label>
+        <div class="col-sm-10">
+            <InputText id="txtTelefono" class="form-control" @bind-Value="_paciente.Telefono" />
+            <ValidationMessage For="@(() => _paciente.Telefono)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Paciente _paciente = new();
+    private string _titulo = "Nuevo ";
+    private List<Consulta> _consultas = new();
+
+    override protected async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            _paciente = await _repositorioPacientes.Get(Id);
+            _titulo = "Modificar ";
+        }
+    }
+
+    private void Guardar()
+    {
+        if (Id > 0)
+        {
+            _repositorioPacientes.Update(_paciente);
+        }
+        else
+        {
+            _repositorioPacientes.Add(_paciente);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigationManager.NavigateTo("/pacientes");
+    }
+}

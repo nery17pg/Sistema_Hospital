@@ -1,0 +1,76 @@
+﻿@page "/medicos/nueva"
+@page "/medicos/editar/{Id:int}"
+@using HospitalSistema.Data
+@using HospitalSistema.Repositorio
+@rendermode InteractiveServer
+@inject NavigationManager _navigationManager
+@inject IRepositorioMedicos _repositorioMedicos
+
+<PageTitle>Médicos</PageTitle>
+<h2><strong>@_titulo Médico</strong></h2>
+
+<EditForm Model="_medico" FormName="frmMedico" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="mb-3 row">
+        <label for="txtNombre" class="col-sm-2 col-form-label">Nombre completo</label>
+        <div class="col-sm-10">
+            <InputText id="txtNombre" class="form-control" @bind-Value="_medico.Nombre" />
+            <ValidationMessage For="@(() => _medico.Nombre)" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="txtEspecialidad" class="col-sm-2 col-form-label">Especialidad</label>
+        <div class="col-sm-10">
+            <InputText id="txtEspecialidad" class="form-control" @bind-Value="_medico.Especialidad" />
+            <ValidationMessage For="@(() => _medico.Especialidad)" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="txtConsultorio" class="col-sm-2 col-form-label">Consultorio</label>
+        <div class="col-sm-10">
+            <InputNumber for="txtConsultorio" class="form-control" @bind-Value="_medico.Consultorio" />
+            <ValidationMessage For="@(() => _medico.Consultorio)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Medico _medico = new();
+    private string _titulo = "Nuevo ";
+
+    override protected async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            _medico = await _repositorioMedicos.Get(Id);
+            _titulo = "Modificar ";
+        }
+    }
+
+    private void Guardar()
+    {
+        if (Id > 0)
+        {
+            _repositorioMedicos.Update(_medico);
+        }
+        else
+        {
+            _repositorioMedicos.Add(_medico);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigationManager.NavigateTo("/medicos");
+    }
+}

@@ -1,0 +1,53 @@
+﻿@page "/administrativo/inicial"
+
+<div class="container mt-4">
+    <div class="jumbotron p-4 mb-4 bg-primary rounded">
+        <h2 class="display-4"><strong>¡Que tenga una linda jornada laboral!</strong></h2>
+    </div>
+
+    <div class="row">
+        <!--Pacientes-->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="images/pacientes.jpg" class="card-img-top" alt="Pacientes">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Pacientes</strong></h5>
+                    <p class="card-text">Registre nuevos pacientes y vea el listado.</p>
+                    <a class="btn btn-info" href="pacientes/nueva">Registro</a>
+                    <a class="btn btn-secondary" href="pacientes">Listado</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Administrativo-->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="images/medicos.jpg" class="card-img-top" alt="Medicos">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Médicos</strong></h5>
+                    <p class="card-text">Registre nuevos médicos y vea el listado.</p>
+                    <a class="btn btn-info" href="medicos/nueva">Registro</a>
+                    <a class="btn btn-secondary" href="medicos">Listado</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Consultas-->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="images/consultas.jpg" class="card-img-top" alt="Consultas">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Consultas</strong></h5>
+                    <p class="card-text">Registre nuevas consultas y vea el listado.</p>
+                    <a class="btn btn-info" href="consultas/nueva">Registro</a>
+                    <a class="btn btn-secondary" href="consultas">Listado</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+}
